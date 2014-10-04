@@ -13,20 +13,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.medbarcha.crud.model.Student;
 import com.medbarcha.crud.service.StudentService;
 
-
 @Controller
 public class StudentController {
-
 	@Autowired
 	private StudentService studentService;
 	
 	@RequestMapping("/index")
-	public void setupForm(Map<String, Object> map){
+	public String setupForm(Map<String, Object> map){
 		Student student = new Student();
 		map.put("student", student);
 		map.put("studentList", studentService.getAllStudent());
+		return "student";
 	}
-	
 	@RequestMapping(value="/student.do", method=RequestMethod.POST)
 	public String doActions(@ModelAttribute Student student, BindingResult result, @RequestParam String action, Map<String, Object> map){
 		Student studentResult = new Student();
@@ -52,5 +50,4 @@ public class StudentController {
 		map.put("studentList", studentService.getAllStudent());
 		return "student";
 	}
-
 }
