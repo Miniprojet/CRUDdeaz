@@ -17,18 +17,22 @@ import com.medbarcha.crud.service.StudentService;
 public class StudentController {
 	@Autowired
 	private StudentService studentService;
-	
+
 	@RequestMapping("/index")
-	public String setupForm(Map<String, Object> map){
+	public String setupForm(Map<String, Object> map) {
 		Student student = new Student();
 		map.put("student", student);
 		map.put("studentList", studentService.getAllStudent());
 		return "student";
 	}
-	@RequestMapping(value="/student.do", method=RequestMethod.POST)
-	public String doActions(@ModelAttribute Student student, BindingResult result, @RequestParam String action, Map<String, Object> map){
+
+	@RequestMapping(value = "/action.do", method = RequestMethod.POST)
+	public String doActions(@ModelAttribute Student student,
+			BindingResult result, @RequestParam String action,
+			Map<String, Object> map) {
 		Student studentResult = new Student();
-		switch(action.toLowerCase()){	//only in Java7 you can put String in switch
+		switch (action.toLowerCase()) { // only in Java7 you can put String in
+										// switch
 		case "add":
 			studentService.add(student);
 			studentResult = student;
@@ -42,8 +46,10 @@ public class StudentController {
 			studentResult = new Student();
 			break;
 		case "search":
-			Student searchedStudent = studentService.getStudent(student.getStudentId());
-			studentResult = searchedStudent!=null ? searchedStudent : new Student();
+			Student searchedStudent = studentService.getStudent(student
+					.getStudentId());
+			studentResult = searchedStudent != null ? searchedStudent
+					: new Student();
 			break;
 		}
 		map.put("student", studentResult);
